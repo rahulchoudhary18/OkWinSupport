@@ -1,47 +1,46 @@
 import asyncio
 from pyrogram import Client, filters
+from pyrogram.types import InputMediaPhoto, InputMediaVideo, InlineKeyboardMarkup
 from pyrogram.errors import FloodWait
-
 
 from handlers.database import db
 
 app = None
 
 ALLOWED_USER_IDS = [6322577824, 5693070387]
-
 def setup_broadcast(application):
     global app
     app = application
 
     @app.on_message(filters.command("broadcast") & filters.user(ALLOWED_USER_IDS))
     async def broadcast_message(client, message):
-        if len(message.command) < 2 and not message.reply_to_message:
-            return await message.reply_text("Usage: /broadcast <message> or reply to a message with /broadcast")
+        if not message.reply_to_message:
+            return await message.reply_text("Please reply to a message with content to broadcast.")
 
-        query = message.text.split(None, 1)[1] if len(message.command) >= 2 else None
-        if message.reply_to_message:
+        # Handling different types of messages
+        if message.reply_to_message.text:
             content = message.reply_to_message.text
+            markup = message.reply_to_message.reply_markup if isinstance(message.reply_to_message.reply_markup, InlineKeyboardMarkup) else None
+        elif message.reply_to_message.photo:
+            content = InputMediaPhoto(message.reply_to_message.photo.file_id)
+        elif message.reply_to_message.video:
+            content = InputMediaVideo(message.reply_to_message.video.file_id)
         else:
-            content = query
+            return await message.reply_text("Unsupported message type for broadcasting.")
 
-        if not content:
-            return await message.reply_text("Error: No content to broadcast.")
-
-        options = message.text.split()
-        pin = '-pin' in options
-        pin_loud = '-pinloud' in options
-
+        # Fetch user ids from database
         user_ids = await fetch_all_user_ids()
         sent, failed = 0, 0
         for user_id in user_ids:
             try:
-                msg = await app.send_message(user_id, content)
-                if pin:
-                    await msg.pin(disable_notification=not pin_loud)
+                if isinstance(content, (InputMediaPhoto, InputMediaVideo)):
+                    await app.send_media_group(user_id, [content])
+                else:
+                    await app.send_message(user_id, content, reply_markup=markup)
                 sent += 1
-                await asyncio.sleep(0.2)  # Sleep to manage rate limits
+                await asyncio.sleep(0.2)
             except FloodWait as e:
-                await asyncio.sleep(e.x)  # Handle the flood wait exception
+                await asyncio.sleep(e.x)
             except Exception as e:
                 print(f"Failed to send message to {user_id}: {str(e)}")
                 failed += 1
