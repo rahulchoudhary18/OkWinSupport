@@ -3,8 +3,8 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 def generate_join_channels_keyboard():
 
     channel_links = [
-        "https://t.me/+sklWTNcPFx4zNTE1",
         "https://t.me/Colourtrading"
+        "https://t.me/+sklWTNcPFx4zNTE1",
     ]
     keyboard = []
     grouped_links = list(zip(*[iter(channel_links)]*1))
@@ -17,10 +17,10 @@ def generate_join_channels_keyboard():
     
     
     if len(channel_links) % 2 == 1:
-        keyboard.append([InlineKeyboardButton("👉🏻 ꜱᴜʙꜱᴄʀɪʙᴇ ɴᴏᴡ 👈🏻", url=channel_links[-1])])
+        keyboard.append([InlineKeyboardButton("𝙈𝙐𝙎𝙏 𝙅𝙊𝙄𝙉 💰", url=channel_links[-1])])
     
     
-    keyboard.append([InlineKeyboardButton("ɴᴇxᴛ ➡️", callback_data="check_joined")])
+    keyboard.append([InlineKeyboardButton("𝙉𝙀𝙓𝙏 ➡️", callback_data="check_joined")])
     
     return InlineKeyboardMarkup(keyboard)
 
