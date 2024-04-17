@@ -3,7 +3,7 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 def generate_join_channels_keyboard():
 
     channel_links = [
-        "https://t.me/Colourtrading"
+        "https://t.me/Colourtrading",
         "https://t.me/+sklWTNcPFx4zNTE1",
     ]
     keyboard = []
