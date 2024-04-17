@@ -16,14 +16,14 @@ def setup_broadcast(application):
         if not message.reply_to_message:
             return await message.reply_text("Please reply to a text or image message for broadcasting.")
 
-        # Determine the content type
+        
         content_type = 'photo' if message.reply_to_message.photo else 'text'
         file_id = message.reply_to_message.photo.file_id if message.reply_to_message.photo else None
         text_content = message.reply_to_message.text if message.reply_to_message.text else None
         caption = message.reply_to_message.caption if message.reply_to_message.caption else None
         reply_markup = message.reply_to_message.reply_markup if hasattr(message.reply_to_message, 'reply_markup') else None
 
-        # Fetch user ids from database
+        
         user_ids = await fetch_all_user_ids()
 
         sent, failed = 0, 0
@@ -38,7 +38,7 @@ def setup_broadcast(application):
             except FloodWait as e:
                 await asyncio.sleep(e.x)
             except Exception as e:
-                print(f"Failed to send message to {user_id}: {str(e)}")
+                #print(f"Failed to send message to {user_id}: {str(e)}")
                 failed += 1
 
         await message.reply_text(f"Broadcast completed: Sent to {sent} users, {failed} failed.")
