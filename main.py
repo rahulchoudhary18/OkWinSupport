@@ -30,10 +30,9 @@ async def start(client, message):
           
         photo_url = "https://telegra.ph/file/a3852757146a2c0fcc184.jpg"
         reply_markup = InlineKeyboardMarkup([
-            [InlineKeyboardButton("RECHARGE ISSUE", callback_data="TC_LOTTERY_CALLBACK_DATA")],
-            [InlineKeyboardButton("AGENT BONUSES", callback_data="OK_WIN_CALLBACK_DATA")],
-            [InlineKeyboardButton("GIFT CODE GROUP", callback_data="LIC_GAMES_CALLBACK_DATA")],
-            [InlineKeyboardButton("VIP PREDICTIONS", callback_data="RAJALUCK_CALLBACK_DATA")]
+            [InlineKeyboardButton("ʀᴇᴄʜᴀʀɢᴇ / ᴡɪᴛʜᴅʀᴀᴡᴀʟ ɪꜱꜱᴜᴇ", url="https://t.me/lauraBDG66666")],
+            [InlineKeyboardButton("ʙᴇᴄᴏᴍᴇ ᴀɢᴇɴᴛ 🤵‍♂️", url="https://t.me/AgentAvaniG")],
+            [InlineKeyboardButton("ᴄᴏʟʟᴀʙᴏʀᴀᴛɪᴏɴ 💬", url="https://t.me/RgC21")]
         ])
         await client.send_photo(
             chat_id=chat_id,
