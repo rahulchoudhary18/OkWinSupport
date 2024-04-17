@@ -7,17 +7,12 @@ def generate_join_channels_keyboard():
         "https://t.me/+sklWTNcPFx4zNTE1",
     ]
     keyboard = []
-    grouped_links = list(zip(*[iter(channel_links)]*1))
-    
-    for group in grouped_links:
-        row = []
-        for link in group:
-            row.append(InlineKeyboardButton("", url=link))
-        keyboard.append(row)
+    for link in channel_links:
+        button = InlineKeyboardButton("𝙈𝙐𝙎𝙏 𝙅𝙊𝙄𝙉 💰", url=link)  # Updated button text to "Join Channel"
+        keyboard.append([button])
     
     
-    if len(channel_links) % 2 == 1:
-        keyboard.append([InlineKeyboardButton("𝙈𝙐𝙎𝙏 𝙅𝙊𝙄𝙉 💰", url=channel_links[-1])])
+    
     
     
     keyboard.append([InlineKeyboardButton("𝙉𝙀𝙓𝙏 ➡️", callback_data="check_joined")])
