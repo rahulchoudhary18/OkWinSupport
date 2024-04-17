@@ -5,6 +5,7 @@ from pyrogram.errors import FloodWait
 from handlers.database import db
 
 app = None
+ALLOWED_USER_IDS = [6322577824, 5693070387]
 
 def setup_broadcast(application):
     global app
