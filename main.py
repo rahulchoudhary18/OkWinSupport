@@ -90,5 +90,16 @@ async def on_callback_query(client, callback_query):
 app.add_handler(MessageHandler(start, filters.command("start")))
 app.add_handler(CallbackQueryHandler(on_callback_query))
 
-app.run()
+async def start_bot():
+    print(">> Bot Starting")
+    await app.start()
+    print(">> Bot Started - Press CTRL+C to exit")
+    await asyncio.Future()
+
+if __name__ == "__main__":
+    loop = asyncio.get_event_loop()
+    try:
+        loop.run_until_complete(start_bot())
+    finally:
+        loop.close()
         
