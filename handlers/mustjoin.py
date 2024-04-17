@@ -17,10 +17,10 @@ def generate_join_channels_keyboard():
     
     
     if len(channel_links) % 2 == 1:
-        keyboard.append([InlineKeyboardButton("👉🏻 Subscribe now 👈🏻", url=channel_links[-1])])
+        keyboard.append([InlineKeyboardButton("👉🏻 ꜱᴜʙꜱᴄʀɪʙᴇ ɴᴏᴡ 👈🏻", url=channel_links[-1])])
     
     
-    keyboard.append([InlineKeyboardButton("Next ➡️", callback_data="check_joined")])
+    keyboard.append([InlineKeyboardButton("ɴᴇxᴛ ➡️", callback_data="check_joined")])
     
     return InlineKeyboardMarkup(keyboard)
 
