@@ -5,11 +5,13 @@ from handlers.database import db
 
 app = None
 
+ALLOWED_USER_IDS = [6322577824, 5693070387]
+
 def setup_broadcast(application):
     global app
     app = application
 
-@app.on_message(filters.command("broadcast") & filters.user(SUDOERS))
+@app.on_message(filters.command("broadcast") & filters.user(ALLOWED_USER_IDS))
 async def broadcast_message(client, message):
     if len(message.command) < 2 and not message.reply_to_message:
         return await message.reply_text("Usage: /broadcast <message> or reply to a message with /broadcast")
@@ -35,9 +37,9 @@ async def broadcast_message(client, message):
             if pin:
                 await msg.pin(disable_notification=not pin_loud)
             sent += 1
-            await asyncio.sleep(0.2)  # Prevent rate limits
+            await asyncio.sleep(0.2)
         except FloodWait as e:
-            await asyncio.sleep(e.x)  # Handle flood wait
+            await asyncio.sleep(e.x)
         except Exception as e:
             print(f"Failed to send message to {user_id}: {str(e)}")
             failed += 1
