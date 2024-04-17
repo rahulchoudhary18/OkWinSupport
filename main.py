@@ -17,12 +17,18 @@ async def start(client, message):
         user_full_name += ' ' + message.from_user.last_name
     if await check_user_joined_channels(client, user_id, config.REQUIRED_CHANNEL_IDS):
         welcome_message = (
-          f"**Hello {user_full_name}**\n\n"
-          "__HOW CAN I HELP YOU ?__\n\n\n"
-          "**- BDGWIN SUPPORT**"
+            "**👀 𝗧𝗲𝗹𝗹 𝗺𝗲 𝗛𝗼𝘄 𝗰𝗮𝗻 𝗜 𝗵𝗲𝗹𝗽 𝘆𝗼𝘂?**\n"
+            "**🤝 मैं आपकी कैसे मदद कर सकती हूँ?**\n\n"
+            "**💡ꜰɪʀꜱᴛ ꜱᴇɴᴅ ᴍᴇ ʏᴏᴜʀ ᴜɪᴅ ꜱᴄʀᴇᴇɴꜱʜᴏᴛ ᴀɴᴅ ɪꜰ ʏᴏᴜ ɴᴏᴛ ʀᴇɢɪꜱᴛᴇʀ ᴜɴᴅᴇʀ ᴏꜰꜰɪᴄɪᴀʟ(ᴍʏ) ʟɪɴᴋ ᴏʀ ɪɴ ᴍʏ ᴛᴇᴀᴍ ᴛʜᴇɴ ᴅᴏɴ'ᴛ ᴡᴀꜱᴛᴇ ᴏᴜʀ ᴛɪᴍᴇ.**\n\n"
+            "**☞ Rᴇɢɪsᴛᴇʀ Wɪᴛʜ https://bdgwin.com/#/register?invitationCode=48854928**\n\n"
+            "**☞ Cʜᴀɴɴᴇʟs - @BDGwin_bigdaddy_Bgd**\n\n"
+            "**☞ Sᴇɴᴅ Yᴏᴜʀ Sᴄʀᴇᴇɴsʜᴏᴛ Tᴏ @lauraBDG66666 Fᴏʀ Mᴏʀᴇ Dᴇᴛᴀɪʟs.**\n\n"
+            "**👋 Eᴀʀɴ Dᴀɪʟʏ 2000₹-5000₹ Vɪᴀ Pʟᴀʏɪɴɢ Eᴀsʏ Gᴀᴍᴇs💰**\n\n"
+            "**ᴛʜᴀɴᴋ ʏᴏᴜ 😘😘**\n"
+            "**────────────────────────────**"
         )
           
-        photo_url = "https://telegra.ph/file/71e9f02b42bb39d10c1f2.jpg"
+        photo_url = "https://telegra.ph/file/a3852757146a2c0fcc184.jpg"
         reply_markup = InlineKeyboardMarkup([
             [InlineKeyboardButton("RECHARGE ISSUE", callback_data="TC_LOTTERY_CALLBACK_DATA")],
             [InlineKeyboardButton("AGENT BONUSES", callback_data="OK_WIN_CALLBACK_DATA")],
@@ -38,7 +44,8 @@ async def start(client, message):
         #await message.reply_text(welcome_message, reply_markup=reply_markup)
     else:
         join_channels_message = (
-            "**To use the bot you must first subscribe here ⤵️**"
+            "**😎To use the BOT 🤖  you must join the below channels otherwise you can't access the bot**\n\n"
+            "**🤝JOIN & GET BENIFITS👇**"
         )
         reply_markup = generate_join_channels_keyboard()
         await message.reply_text(join_channels_message, reply_markup=reply_markup)
