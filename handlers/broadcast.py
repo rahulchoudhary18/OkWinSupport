@@ -1,13 +1,11 @@
 import asyncio
 from pyrogram import Client, filters
-from pyrogram.types import InputMediaPhoto, InputMediaVideo, InlineKeyboardMarkup
 from pyrogram.errors import FloodWait
 
 from handlers.database import db
 
 app = None
 
-ALLOWED_USER_IDS = [6322577824, 5693070387]
 def setup_broadcast(application):
     global app
     app = application
@@ -15,30 +13,27 @@ def setup_broadcast(application):
     @app.on_message(filters.command("broadcast") & filters.user(ALLOWED_USER_IDS))
     async def broadcast_message(client, message):
         if not message.reply_to_message:
-            return await message.reply_text("Please reply to a message with content to broadcast.")
+            return await message.reply_text("Please reply to a text or image message for broadcasting.")
 
-        # Handling different types of messages
-        if message.reply_to_message.text:
-            content = message.reply_to_message.text
-            markup = message.reply_to_message.reply_markup if isinstance(message.reply_to_message.reply_markup, InlineKeyboardMarkup) else None
-        elif message.reply_to_message.photo:
-            content = InputMediaPhoto(message.reply_to_message.photo.file_id)
-        elif message.reply_to_message.video:
-            content = InputMediaVideo(message.reply_to_message.video.file_id)
-        else:
-            return await message.reply_text("Unsupported message type for broadcasting.")
+        # Determine the content type
+        content_type = 'photo' if message.reply_to_message.photo else 'text'
+        file_id = message.reply_to_message.photo.file_id if message.reply_to_message.photo else None
+        text_content = message.reply_to_message.text if message.reply_to_message.text else None
+        caption = message.reply_to_message.caption if message.reply_to_message.caption else None
+        reply_markup = message.reply_to_message.reply_markup if hasattr(message.reply_to_message, 'reply_markup') else None
 
         # Fetch user ids from database
         user_ids = await fetch_all_user_ids()
+
         sent, failed = 0, 0
         for user_id in user_ids:
             try:
-                if isinstance(content, (InputMediaPhoto, InputMediaVideo)):
-                    await app.send_media_group(user_id, [content])
+                if content_type == 'photo':
+                    await app.send_photo(chat_id=user_id, photo=file_id, caption=caption, reply_markup=reply_markup)
                 else:
-                    await app.send_message(user_id, content, reply_markup=markup)
+                    await app.send_message(chat_id=user_id, text=text_content, reply_markup=reply_markup)
                 sent += 1
-                await asyncio.sleep(0.2)
+                await asyncio.sleep(0.2)  # Sleep to manage rate limits
             except FloodWait as e:
                 await asyncio.sleep(e.x)
             except Exception as e:
