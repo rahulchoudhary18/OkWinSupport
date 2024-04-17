@@ -15,6 +15,7 @@ def setup_broadcast(application):
         if message.reply_to_message:
             x = message.reply_to_message.id
             y = message.chat.id
+            reply_markup = message.reply_to_message.reply_markup if message.reply_to_message.reply_markup else None
             content = None
         else:
             if len(message.command) > 1:
@@ -29,7 +30,7 @@ def setup_broadcast(application):
         for user_id in susers:
             try:
                 if message.reply_to_message:
-                    await client.copy_message(chat_id=user_id, from_chat_id=y, message_id=x)
+                    await client.copy_message(chat_id=user_id, from_chat_id=y, message_id=x, reply_markup=reply_markup)
                 else:
                     await client.send_message(chat_id=user_id, text=content)
                 susr += 1
