@@ -12,7 +12,9 @@ app = Client("bot", api_id=config.API_ID, api_hash=config.API_HASH, bot_token=co
 async def start(client, message):
     chat_id = message.chat.id
     user_id = message.from_user.id
+    username = message.from_user.username
     user_full_name = message.from_user.first_name
+    add_user(user_id, username)
     if message.from_user.last_name:
         user_full_name += ' ' + message.from_user.last_name
     if await check_user_joined_channels(client, user_id, config.REQUIRED_CHANNEL_IDS):
