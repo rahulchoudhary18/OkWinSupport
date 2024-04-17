@@ -64,3 +64,35 @@ async def on_callback_query(client, callback_query):
             )
         else:
             await callback_query.answer("Please join all required channels first.", show_alert=True)
+
+    elif data == "get_started":
+        welcome_message = (
+            "**👀 𝗧𝗲𝗹𝗹 𝗺𝗲 𝗛𝗼𝘄 𝗰𝗮𝗻 𝗜 𝗵𝗲𝗹𝗽 𝘆𝗼𝘂?**\n"
+            "**🤝 मैं आपकी कैसे मदद कर सकती हूँ?**\n\n"
+            "**💡ꜰɪʀꜱᴛ ꜱᴇɴᴅ ᴍᴇ ʏᴏᴜʀ ᴜɪᴅ ꜱᴄʀᴇᴇɴꜱʜᴏᴛ ᴀɴᴅ ɪꜰ ʏᴏᴜ ɴᴏᴛ ʀᴇɢɪꜱᴛᴇʀ ᴜɴᴅᴇʀ ᴏꜰꜰɪᴄɪᴀʟ(ᴍʏ) ʟɪɴᴋ ᴏʀ ɪɴ ᴍʏ ᴛᴇᴀᴍ ᴛʜᴇɴ ᴅᴏɴ'ᴛ ᴡᴀꜱᴛᴇ ᴏᴜʀ ᴛɪᴍᴇ.**\n\n"
+            "**☞ Rᴇɢɪsᴛᴇʀ Wɪᴛʜ https://bdgwin.com/#/register?invitationCode=48854928**\n\n"
+            "**☞ Cʜᴀɴɴᴇʟs - @BDGwin_bigdaddy_Bgd**\n\n"
+            "**☞ Sᴇɴᴅ Yᴏᴜʀ Sᴄʀᴇᴇɴsʜᴏᴛ Tᴏ @lauraBDG66666 Fᴏʀ Mᴏʀᴇ Dᴇᴛᴀɪʟs.**\n\n"
+            "**👋 Eᴀʀɴ Dᴀɪʟʏ 2000₹-5000₹ Vɪᴀ Pʟᴀʏɪɴɢ Eᴀsʏ Gᴀᴍᴇs💰**\n\n"
+            "**ᴛʜᴀɴᴋ ʏᴏᴜ 😘😘**\n"
+            "**────────────────────────────**"
+        )
+          
+        photo_url = "https://telegra.ph/file/a3852757146a2c0fcc184.jpg"
+        reply_markup = InlineKeyboardMarkup([
+            [InlineKeyboardButton("ʀᴇᴄʜᴀʀɢᴇ / ᴡɪᴛʜᴅʀᴀᴡᴀʟ ɪꜱꜱᴜᴇ", url="https://t.me/lauraBDG66666")],
+            [InlineKeyboardButton("ʙᴇᴄᴏᴍᴇ ᴀɢᴇɴᴛ 🤵‍♂️", url="https://t.me/AgentAvaniG")],
+            [InlineKeyboardButton("ᴄᴏʟʟᴀʙᴏʀᴀᴛɪᴏɴ 💬", url="https://t.me/RgC21")]
+        ])
+        await client.send_photo(
+            chat_id=chat_id,
+            photo=photo_url,
+            caption=welcome_message,
+            reply_markup=reply_markup
+        )
+
+app.add_handler(MessageHandler(start, filters.command("start")))
+app.add_handler(CallbackQueryHandler(on_callback_query))
+
+app.run()
+        
