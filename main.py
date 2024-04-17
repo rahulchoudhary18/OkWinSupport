@@ -6,6 +6,8 @@ import asyncio
 import config
 import logging
 from handlers.mustjoin import check_user_joined_channels, generate_join_channels_keyboard
+from stats import setup_stats_handlers
+from handlers.database import add_user
 
 app = Client("bot", api_id=config.API_ID, api_hash=config.API_HASH, bot_token=config.BOT_TOKEN)
 
@@ -91,6 +93,7 @@ async def on_callback_query(client, callback_query):
 
 app.add_handler(MessageHandler(start, filters.command("start")))
 app.add_handler(CallbackQueryHandler(on_callback_query))
+setup_stats_handlers(app)
 
 async def start_bot():
     print(">> Bot Starting")
