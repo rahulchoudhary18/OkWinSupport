@@ -33,9 +33,9 @@ def setup_broadcast(application):
                 else:
                     await client.send_message(chat_id=user_id, text=content)
                 susr += 1
-                await asyncio.sleep(0.3)  # manage send rate
+                await asyncio.sleep(0.3)
             except errors.FloodWait as e:
-                await asyncio.sleep(e.x)  # wait the required time
+                await asyncio.sleep(e.x)
             except Exception as e:
                 print(f"Failed to send message to {user_id}: {e}")
 
