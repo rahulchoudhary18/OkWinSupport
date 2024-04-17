@@ -1,6 +1,5 @@
 import asyncio
-from pyrogram import Client, filters
-from pyrogram.errors import FloodWait
+from pyrogram import Client, filters, errors
 
 from handlers.database import db
 
@@ -13,29 +12,37 @@ def setup_broadcast(application):
 
     @app.on_message(filters.command("broadcast") & filters.user(ALLOWED_USER_IDS))
     async def broadcast_message(client, message):
-        if not message.reply_to_message:
-            return await message.reply_text("Please reply to a message with /broadcast to send it.")
-        
-        # Fetch all user IDs from the database
-        user_ids = await fetch_all_user_ids()
-        
-        # Getting details from the replied message
-        from_chat_id = message.chat.id
-        message_id = message.reply_to_message.message_id
+        if message.reply_to_message:
+            x = message.reply_to_message.id
+            y = message.chat.id
+            content = None
+        else:
+            if len(message.command) > 1:
+                content = message.text.split(None, 1)[1]
+            else:
+                return await message.reply_text(
+                    "<b>Example:</b>\n/broadcast [message] or reply to a message with /broadcast"
+                )
 
-        sent, failed = 0, 0
-        for user_id in user_ids:
+        susr = 0
+        susers = await fetch_all_user_ids()
+        for user_id in susers:
             try:
-                await app.copy_message(chat_id=user_id, from_chat_id=from_chat_id, message_id=message_id)
-                sent += 1
-                await asyncio.sleep(0.3)
-            except FloodWait as e:
-                await asyncio.sleep(e.x)
+                if message.reply_to_message:
+                    await client.copy_message(chat_id=user_id, from_chat_id=y, message_id=x)
+                else:
+                    await client.send_message(chat_id=user_id, text=content)
+                susr += 1
+                await asyncio.sleep(0.3)  # manage send rate
+            except errors.FloodWait as e:
+                await asyncio.sleep(e.x)  # wait the required time
             except Exception as e:
-                print(f"Failed to send message to {user_id}: {str(e)}")
-                failed += 1
+                print(f"Failed to send message to {user_id}: {e}")
 
-        await message.reply_text(f"Broadcast completed: Sent to {sent} users, {failed} failed.")
+        try:
+            await message.reply_text(f"<b>Broadcasted message to {susr} users.</b>")
+        except Exception as e:
+            print(f"Failed to send completion message: {e}")
 
 async def fetch_all_user_ids():
     """Fetch all user IDs from the users collection in the database."""
