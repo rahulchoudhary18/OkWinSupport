@@ -1,4 +1,4 @@
-from pyrogram import Client, filters
+from pyrogram import Client, filters, idle
 from pyrogram.handlers import MessageHandler, CallbackQueryHandler
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, InputMediaPhoto
 from pyrogram.types import ReplyKeyboardMarkup, KeyboardButton
@@ -101,7 +101,7 @@ async def start_bot():
     print(">> Bot Starting")
     await app.start()
     print(">> Bot Started - Press CTRL+C to exit")
-    await asyncio.Future()
+    await idle()
 
 if __name__ == "__main__":
     loop = asyncio.get_event_loop()
